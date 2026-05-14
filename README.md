@@ -2,7 +2,7 @@
 
 ## Project Overview:
 
-This pipeline turns periodic [Open Library Search API](https://openlibrary.org/dev/docs/api/search) polling results into Postgres-backed metrics so Grafana can alert when a book becomes fully available (when `has_fulltext` goes from unknown or false to true).
+This pipeline turns periodic [Open Library Search API](https://openlibrary.org/dev/docs/api/search) polling results into Postgres-backed metrics so Grafana can alert when a book becomes fully available (when `ebook_access` goes from unknown or false to true).
 
 ### Full Pipeline Steps:
 
@@ -16,11 +16,13 @@ This pipeline turns periodic [Open Library Search API](https://openlibrary.org/d
 - Python 3.12+
     - Libraries Used:
         - `python-dotenv`: 
+        - `requests`: 
+        - `kafka-python`: 
         - `sqlalchemy`: 
-        - `psycopg2-binary`:
-        - `pytest`:
-        - `apache-flink`:
-        - `apache-flink-libraries`:
+        - `psycopg2-binary`: 
+        - `pytest`: 
+        - `apache-flink`: 
+        - `apache-flink-libraries`: 
 
 ## Steps for Project Setup:
 
@@ -45,13 +47,4 @@ pip install -r requirements.txt
 
 5. Set up required environment variables:
 
-Create .env in the project directory with at least:
-```
-POSTGRES_USER=<your_postgres_user>
-POSTGRES_PASSWORD=<your_postgres_password>
-POSTGRES_DB=<your_postgres_db>
-GF_SECURITY_ADMIN_USER=<your_grafana_user>
-GF_SECURITY_ADMIN_PASSWORD=<your_grafana_password>
-GRAFANA_DB_USER=grafana_reader
-GRAFANA_DB_PASSWORD=<strong_password_for_read_only_db_user>
-```
+Create `.env` in the project directory. Copy from `.env.example` and fill in secrets.
