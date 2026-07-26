@@ -2,7 +2,7 @@
 
 ## Project Overview:
 
-This pipeline turns periodic [Open Library Search API](https://openlibrary.org/dev/docs/api/search) polling results into Postgres-backed metrics so Grafana can alert when a book becomes fully available (when `ebook_access` goes from unknown or false to true).
+This pipeline turns periodic [Open Library Search API](https://openlibrary.org/dev/docs/api/search) polling results into Postgres-backed metrics so Grafana can alert when a book becomes fully available, which is when `ebook_access` goes from unknown/false (values: `no_ebook`, `unclassified`, `printdisabled`, `borrowable`) to true (value: `public`).
 
 ### Full Pipeline Steps:
 
@@ -48,3 +48,7 @@ pip install -r requirements.txt
 5. Set up required environment variables:
 
 Create `.env` in the project directory. Copy from `.env.example` and fill in secrets.
+
+## Guide to Run the Project
+
+

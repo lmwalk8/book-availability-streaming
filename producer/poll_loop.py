@@ -1,5 +1,4 @@
 """Poll Open Library Search and publish one Kafka message per document."""
-from __future__ import annotations
 import json
 import logging
 import time

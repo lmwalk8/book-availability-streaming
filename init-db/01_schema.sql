@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS work_events (
     work_key TEXT NOT NULL,
     title TEXT NOT NULL,
     author_name TEXT,
-    has_fulltext BOOLEAN NOT NULL,
+    ebook_access TEXT NOT NULL,
     ingested_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     payload_hash CHAR(64) NOT NULL,
-    CONSTRAINT work_events_has_fulltext_check CHECK (has_fulltext = true)
+    CONSTRAINT work_events_ebook_access_check CHECK (ebook_access = 'public')
 );
 
 -- Avoid storing identical snapshots repeatedly
