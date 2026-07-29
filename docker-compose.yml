@@ -39,7 +39,7 @@ services:
         jobmanager.rpc.address: flink-jobmanager
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       KAFKA_TOPIC_RAW: openlibrary.search.raw
-      KAFKA_GROUP_ID: flink-openlibrary-c2
+      KAFKA_GROUP_ID: flink-openlibrary
       KAFKA_STARTING_OFFSETS: earliest
     command: jobmanager
     depends_on:
@@ -63,7 +63,7 @@ services:
         taskmanager.numberOfTaskSlots: 2
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       KAFKA_TOPIC_RAW: openlibrary.search.raw
-      KAFKA_GROUP_ID: flink-openlibrary-c2
+      KAFKA_GROUP_ID: flink-openlibrary
       KAFKA_STARTING_OFFSETS: earliest
     networks:
       - stream-net
