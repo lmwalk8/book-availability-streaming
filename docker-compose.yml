@@ -35,9 +35,12 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - |
-        FLINK_PROPERTIES=
+      FLINK_PROPERTIES: |
         jobmanager.rpc.address: flink-jobmanager
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      KAFKA_TOPIC_RAW: openlibrary.search.raw
+      KAFKA_GROUP_ID: flink-openlibrary-c2
+      KAFKA_STARTING_OFFSETS: earliest
     command: jobmanager
     depends_on:
       - zookeeper
@@ -55,10 +58,13 @@ services:
       - flink-jobmanager
     command: taskmanager
     environment:
-      - |
-        FLINK_PROPERTIES=
+      FLINK_PROPERTIES: |
         jobmanager.rpc.address: flink-jobmanager
         taskmanager.numberOfTaskSlots: 2
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      KAFKA_TOPIC_RAW: openlibrary.search.raw
+      KAFKA_GROUP_ID: flink-openlibrary-c2
+      KAFKA_STARTING_OFFSETS: earliest
     networks:
       - stream-net
 

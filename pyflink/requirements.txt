@@ -1,0 +1,3 @@
+# PyFlink runtime deps — installed only in the Flink Docker image (not host).
+apache-flink==1.19.1
+apache-flink-libraries==1.19.1
