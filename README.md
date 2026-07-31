@@ -14,15 +14,20 @@ This pipeline turns periodic [Open Library Search API](https://openlibrary.org/d
 ## Technology Stack (Prerequisites to Run Project):
 
 - Python 3.12+
-    - Libraries Used:
-        - `python-dotenv`: 
-        - `requests`: 
-        - `kafka-python`: 
-        - `sqlalchemy`: 
-        - `psycopg2-binary`: 
-        - `pytest`: 
-        - `apache-flink`: 
-        - `apache-flink-libraries`: 
+- Docker / Docker Compose (Kafka, Flink, Postgres, Grafana)
+
+### Host libraries (`requirements.txt` — producer + unit tests)
+
+- `python-dotenv`: Loads repo-root `.env` into the producer process
+- `requests`: HTTP client for the Open Library Search API
+- `kafka-python`: Publishes search hits to the Kafka raw topic
+- `pytest`: Runs parse/hash unit tests under `pyflink/jobs/`
+
+### Flink image libraries (`pyflink/requirements.txt` — installed in Docker only)
+
+- `apache-flink`: PyFlink APIs for the Kafka -> transform -> Postgres job
+- `apache-flink-libraries`: Matching PyFlink native/helper libs for Flink 1.19.1
+- `psycopg2-binary`: PostgreSQL driver used by the Flink job’s write path 
 
 ## Steps for Project Setup:
 

@@ -21,9 +21,9 @@ KAFKA_STARTING_OFFSETS = os.getenv("KAFKA_STARTING_OFFSETS", "earliest")
 
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
 POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
-POSTGRES_DB = os.getenv("POSTGRES_DB", "book_streaming")
-POSTGRES_USER = os.getenv("POSTGRES_USER", "book_user")
-POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "book_streaming")
+POSTGRES_DB = os.getenv("POSTGRES_DB") # required from .env file
+POSTGRES_USER = os.getenv("POSTGRES_USER") # required from .env file
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD") # required from .env file
 
 # Shared by to-sink-row map output_type (field order = INSERT columns).
 SINK_TYPE_INFO = Types.ROW_NAMED(
