@@ -51,4 +51,52 @@ Create `.env` in the project directory. Copy from `.env.example` and fill in sec
 
 ## Guide to Run the Project
 
+1. Bring up needed docker containers:
+```
+docker compose up -d --build
+```
 
+2. Confirm PostgreSQL table exists in docker:
+```
+docker compose exec postgres sh -c \
+  'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "SELECT count(*) FROM work_events;"'
+```
+
+3. Ensure Kafka topic is created:
+```
+docker compose exec kafka kafka-topics --create \
+  --bootstrap-server kafka:29092 \
+  --topic openlibrary.search.raw \
+  --partitions 3 \
+  --replication-factor 1 \
+  --if-not-exists
+```
+
+4. Poll producer and wait for **sent > 0**
+```
+export KAFKA_BOOTSTRAP_SERVERS=localhost:9092
+python producer/poll_loop.py
+```
+
+5. Submit the Flink job:
+```
+docker compose exec flink-jobmanager \
+  flink run -d -py /opt/flink/usrlib/jobs/openlibrary_to_postgresql.py
+```
+[Flink UI](http://localhost:8081) -> check job is running, not failed.
+
+6. Verify rows landed in PostgreSQL:
+```
+docker compose exec postgres sh -c \
+  'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -c "
+SELECT count(*) AS n FROM work_events;
+SELECT work_key, title, ebook_access, ingested_at, left(payload_hash, 12) AS hash_prefix
+FROM work_events
+ORDER BY ingested_at DESC
+LIMIT 10;
+"'
+```
+Confirm all rows have ebook_access = public
+
+7. Grafana Steps:
+TBD

@@ -16,7 +16,7 @@ from parse_kafka import parse_kafka_value
 
 KAFKA_BOOTSTRAP_SERVERS = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:29092")
 KAFKA_TOPIC_RAW = os.getenv("KAFKA_TOPIC_RAW", "openlibrary.search.raw")
-KAFKA_GROUP_ID = os.getenv("KAFKA_GROUP_ID", "flink-openlibrary-c2")
+KAFKA_GROUP_ID = os.getenv("KAFKA_GROUP_ID", "flink-openlibrary")
 KAFKA_STARTING_OFFSETS = os.getenv("KAFKA_STARTING_OFFSETS", "earliest")
 
 POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
