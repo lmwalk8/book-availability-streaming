@@ -36,6 +36,18 @@ RUN curl -fsSL \
       "https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-connector-kafka/${KAFKA_CONNECTOR_VERSION}/flink-sql-connector-kafka-${KAFKA_CONNECTOR_VERSION}.jar" \
       -o "/opt/flink/lib/flink-sql-connector-kafka-${KAFKA_CONNECTOR_VERSION}.jar"
 
-# Job sources (parse/hash + future openlibrary_to_postgresql.py).
+# Flink JDBC connector (JdbcSink / JdbcConnectionOptions) for Flink 1.19.
+ARG JDBC_CONNECTOR_VERSION=3.2.0-1.19
+RUN curl -fsSL \
+      "https://repo.maven.apache.org/maven2/org/apache/flink/flink-connector-jdbc/${JDBC_CONNECTOR_VERSION}/flink-connector-jdbc-${JDBC_CONNECTOR_VERSION}.jar" \
+      -o "/opt/flink/lib/flink-connector-jdbc-${JDBC_CONNECTOR_VERSION}.jar"
+
+# PostgreSQL JDBC driver (org.postgresql.Driver)
+ARG POSTGRES_JDBC_VERSION=42.7.4
+RUN curl -fsSL \
+      "https://repo.maven.apache.org/maven2/org/postgresql/postgresql/${POSTGRES_JDBC_VERSION}/postgresql-${POSTGRES_JDBC_VERSION}.jar" \
+      -o "/opt/flink/lib/postgresql-${POSTGRES_JDBC_VERSION}.jar"
+
+# Job sources (parse/hash/postgres-sink).
 COPY jobs/ /opt/flink/usrlib/jobs/
 ENV PYTHONPATH=/opt/flink/usrlib/jobs
