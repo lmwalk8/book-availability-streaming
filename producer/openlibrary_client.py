@@ -131,15 +131,26 @@ def fetch_search_page(*, page: int = 1, limit: int | None = None) -> dict[str, A
 def iter_search_pages(
     *,
     max_pages: int,
+    start_page: int = 1,
     limit: int | None = None,
-) -> Iterator[dict[str, Any]]:
+) -> Iterator[tuple[int, dict[str, Any]]]:
     """
-    Yield validated search JSON per page, sleeping between requests when configured.
+    Yield (page_number, search_json) for up to max_pages starting at start_page.
+    Stops early when a page returns no docs.
     """
-    for page in range(1, max_pages + 1):
-        if page > 1 and OPENLIBRARY_SLEEP_BETWEEN_REQUESTS_SEC > 0:
+    if start_page < 1:
+        raise ValueError(f"start_page must be >= 1, got {start_page}")
+    if max_pages < 1:
+        raise ValueError(f"max_pages must be >= 1, got {max_pages}")
+
+    for i, page in enumerate(range(start_page, start_page + max_pages)):
+        if i > 0 and OPENLIBRARY_SLEEP_BETWEEN_REQUESTS_SEC > 0:
             time.sleep(OPENLIBRARY_SLEEP_BETWEEN_REQUESTS_SEC)
-        yield fetch_search_page(page=page, limit=limit)
+        data = fetch_search_page(page=page, limit=limit)
+        yield page, data
+        if not (data.get("docs") or []):
+            logger.info("search page %s returned no docs; stopping page range", page)
+            break
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

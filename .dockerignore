@@ -1,0 +1,11 @@
+.git
+.env
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.mypy_cache
+grafana-data
+postgres-data
+book_avail_project_env
+producer.log
+nohup.out
